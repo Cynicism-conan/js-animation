@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>animation</title>
+    <style>
+        #content{
+            position: absolute;
+            top:100px;
+            left:-150px;
+            width: 150px;
+            height: 400px;
+            background: tan;
+        }
+        #click-share{
+            width: 30px;
+            height: 90px;
+            position: absolute;
+            top:150px;
+            right:-30px;
+            background: palegreen;
+        }
+        #share-list{
+            padding:0;
+            margin: 0;
+            list-style: none;
+        }
+        #share-list li{
+            height:100px;
+            line-height: 100px;
+            width: 150px;
+            background: paleturquoise;
+            text-align: center;
+        }
+        #share-list li:hover{
+            background: plum;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div id="click-share">点我分享</div>
+        <ul id="share-list">
+            <li>QQ</li>
+            <li>微信</li>
+            <li>微博</li>
+            <li>贴吧</li>
+        </ul>
+</div>
+</body>
+<script>
+    function getId(id){
+        return document.getElementById(id)?document.getElementById(id):null;//获得id，判断是否存在
+    }
+    function getStyle(obj,attr){     //获取样式
+        if(document.all){
+            return parseInt(obj.currentStyle[attr]);    // IE
+        }else{
+            return parseInt(getComputedStyle(obj,false)[attr]);  // 非IE
+        }
+    }
+    //鼠标悬停至 分享
+    var share=getId("content");       //调用函数得到ID
+    share.addEventListener("mouseover",function(){    //绑定事件
+        moving();
+    },true);
+    var timer=null;
+    function moving(){
+        clearInterval(timer1);             //计时器
+        clearInterval(timer);
+        timer=setInterval(function(){
+            var leftpart=getStyle(share,"left");   //利用left宽度值调整
+            if(leftpart<0){
+                leftpart+=10;
+            }else{
+                clearInterval(timer);
+            }
+            share.style.left=leftpart+"px";
+        },20)
+
+    }
+    //鼠标离开 分享
+    share.addEventListener("mouseout",function(){
+        fade();
+    },true);
+    var timer1=null;
+    function fade(){
+        clearInterval(timer)
+        clearInterval(timer1);
+        timer1=setInterval(function(){
+            var leftpart=getStyle(share,"left");
+            if(leftpart>-150){
+                leftpart-=10;
+            }else {
+                clearInterval(timer1)
+            }
+            share.style.left=leftpart+"px";
+        },20)
+    }
+</script>
+</html>
