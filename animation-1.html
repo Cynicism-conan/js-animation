@@ -62,17 +62,24 @@
     //鼠标悬停至 分享
     var share=getId("content");       //调用函数得到ID
     share.addEventListener("mouseover",function(){    //绑定事件
-        moving();
+        moving(this,5,0);
+    },true);
+    share.addEventListener("mouseout",function(){
+        moving(this,-5,-150);
     },true);
     var timer=null;
-    function moving(){
-        clearInterval(timer1);             //计时器
-        clearInterval(timer);
-        timer=setInterval(function(){
+    function moving(obj,speed,terminal){
+        clearInterval(share.timer);           //计时器
+        obj.timer=null;
+        obj. timer=setInterval(function(){
             var leftpart=getStyle(share,"left");   //利用left宽度值调整
-            if(leftpart<0){
-                leftpart+=10;
+            if(leftpart<terminal){
+                if(leftpart<terminal)
+                    leftpart+=speed;
             }else{
+                if(leftpart>terminal){
+                    leftpart+=speed;
+                }
                 clearInterval(timer);
             }
             share.style.left=leftpart+"px";
@@ -80,22 +87,20 @@
 
     }
     //鼠标离开 分享
-    share.addEventListener("mouseout",function(){
-        fade();
-    },true);
-    var timer1=null;
-    function fade(){
-        clearInterval(timer)
-        clearInterval(timer1);
-        timer1=setInterval(function(){
-            var leftpart=getStyle(share,"left");
-            if(leftpart>-150){
-                leftpart-=10;
-            }else {
-                clearInterval(timer1)
-            }
-            share.style.left=leftpart+"px";
-        },20)
-    }
+
+//    var timer1=null;
+//    function fade(){
+//        clearInterval(timer)
+//        clearInterval(timer1);
+//        timer1=setInterval(function(){
+//            var leftpart=getStyle(share,"left");
+//            if(leftpart>-150){
+//                leftpart-=10;
+//            }else {
+//                clearInterval(timer1)
+//            }
+//            share.style.left=leftpart+"px";
+//        },20)
+//    }
 </script>
 </html>
